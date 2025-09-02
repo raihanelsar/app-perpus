@@ -17,7 +17,7 @@ class LoginController extends Controller
     {
         $request->validate([
             'email' => 'required|email',
-            'password' => 'required|min:8'
+            'password' => 'required|min:5'
         ]);
 
         // jika user ditemukan / berhasil login

@@ -23,18 +23,18 @@
                         </a>
                     </li>
 
-                    {{-- <li>
-                        <a href="{{ route('categories.index') }}">
-                            <i class="bi bi-circle"></i><span>Kategori Kamar</span>
+                     <li>
+                        <a href="{{ url('lokasi/index') }}">
+                            <i class="bi bi-circle"></i><span>Lokasi Buku</span>
                         </a>
                     </li>
 
-                    <li>
-                        <a href="{{ route('rooms.index') }}">
-                            <i class="bi bi-circle"></i><span>Room</span>
+                   <li>
+                        <a href="{{ url('kategori/index') }}">
+                            <i class="bi bi-circle"></i><span>Kategori Buku</span>
                         </a>
                     </li>
-
+                    {{--
                     <li class="nav-item">
                        <a class="nav-link collapsed" href="{{ route('guests.index') }} ">
                            <i class="bi bi-person"></i>

@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\AnggotaController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\LocationController;
+use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -10,7 +12,7 @@ Route::get('/', function () {
 });
 
 //tampilkan
-Route::get('login', [\App\Http\Controllers\LoginController::class,'login']);
+Route::get('login', [\App\Http\Controllers\LoginController::class, 'login']);
 Route::post('login', [\App\Http\Controllers\LoginController::class, 'actionLogin'])->name('login');
 
 Route::middleware('auth')->group(function () {
@@ -26,4 +28,26 @@ Route::middleware('auth')->group(function () {
     route::get('anggota/restore', [AnggotaController::class, 'indexRestore']);
     route::get('anggota/restore/{id}', [AnggotaController::class, 'restore'])->name('anggota.restore');
     route::delete('anggota/restore/destroy/{id}', [AnggotaController::class, 'destroy'])->name('anggota.destroy');
+
+    //Lokasi
+    route::get('lokasi/index', [App\Http\Controllers\LocationController::class, 'index']);
+    route::get('lokasi/create', [LocationController::class, 'create']);
+    route::post('lokasi/store', [LocationController::class, 'store'])->name('lokasi.store');
+    route::get('lokasi/update', [LocationController::class, 'update'])->name('lokasi.update');
+    route::get('lokasi/edit/{id}', [LocationController::class, 'edit'])->name('lokasi.edit');
+    route::put('lokasi/update/{id}', [LocationController::class, 'update'])->name('lokasi.update');
+    route::delete('lokasi/destroy/{id}', [LocationController::class, 'destroy'])->name('lokasi.destroy');
+
+    //Kategori
+    route::get('kategori/index', [CategoryController::class, 'index']);
+    route::get('kategori/create', [CategoryController::class, 'create']);
+    route::get('kategori/store', [CategoryController::class, 'store'])->name('kategori.store');
+    route::get('kategori/edit/{id}', [CategoryController::class, 'edit'])->name('kategori.edit');
+    route::put('kategori/update/{id}', [CategoryController::class, 'update'])->name('kategori.update');
+    route::delete('kategori/destroy/{id}', [CategoryController::class, 'destroy'])->name('kategori.destroy');
+
+    //Buku
+    route::get('buku/index', [CategoryController::class, 'index']);
+    route::get('buku/create', [CategoryController::class, 'create']);
+    route::get('buku/store', [CategoryController::class, 'store'])->name('buku.store');
 });

@@ -17,7 +17,9 @@ return new class extends Migration
             $table->string('nik')->nullable();
             $table->string('nama_anggota')->nullable();
             $table->string('no_hp')->nullable();
+
             $table->string('email')->unique();
+
             $table->timestamps();
         });
     }
