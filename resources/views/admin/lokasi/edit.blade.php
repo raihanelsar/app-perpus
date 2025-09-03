@@ -6,7 +6,7 @@
         <div class="card-title">Update Location</div>
     </div>
     <div class="card-body">
-        <form action="{{ url('lokasi.update', $location->id) }}" method="post">
+        <form action="{{ url('lokasi/update', $location->id) }}" method="post">
             @csrf
             @method('PUT')
             <label for="" class="form-label">Kode Lokasi</label>
@@ -19,3 +19,4 @@
         </form>
     </div>
 </div>
+@endsection

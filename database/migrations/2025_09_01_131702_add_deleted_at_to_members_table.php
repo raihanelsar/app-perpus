@@ -10,17 +10,20 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up()
-{
-    Schema::table('members', function (Blueprint $table) {
-        $table->softDeletes(); // ini menambahkan kolom deleted_at
-    });
-}
+    {
+        Schema::table('members', function (Blueprint $table) {
+            if (!Schema::hasColumn('members', 'deleted_at')) {
+                $table->softDeletes();
+            }
+        });
+    }
 
-public function down()
-{
-    Schema::table('members', function (Blueprint $table) {
-        $table->dropSoftDeletes();
-    });
-}
-
+    public function down()
+    {
+        Schema::table('members', function (Blueprint $table) {
+            if (Schema::hasColumn('members', 'deleted_at')) {
+                $table->dropSoftDeletes();
+            }
+        });
+    }
 };

@@ -6,7 +6,7 @@
         <div class="card-title">Manage of Location's Books</div>
     </div>
     <div class="card-body">
-        <a href="{{ url('lokasi.create') }}" class="btn btn-primary mt-2 mb-2">Create</a>
+        <a href="{{ url('lokasi/create') }}" class="btn btn-primary mt-2 mb-2">Create</a>
         <div class="table teble-responsive">
             <table class="table table-bordered text-center">
                 <tr>
@@ -27,7 +27,7 @@
                     <td>{{$item->label}}</td>
                      <td>{{$item->rak}}</td>
                     <td>
-                        <a href="{{ url('lokasi.edit', $item->id) }}" class="btn btn-success">Edit</a>
+                        <a href="{{ route('lokasi.edit', $item->id) }}" class="btn btn-success">Edit</a>
                         <form action="" method="post" style="display:inline" onclick="return confirm('Yakin ingin Delete ?')">
                             @csrf
                             @method('DELETE')

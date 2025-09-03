@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\location;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class LocationController extends Controller
 {
@@ -21,7 +22,7 @@ class LocationController extends Controller
      */
     public function create()
     {
-        $title = 'Location';
+        $title = 'Tambah Lokasi';
         return view('admin.lokasi.create', compact('title'));
     }
 
@@ -53,9 +54,8 @@ class LocationController extends Controller
      */
     public function edit(string $id)
     {
-        $title = "Edit Lokasi";
-        $edit = location::find($id);
-        return view('admin.lokasi.edit', compact('title', 'edit'));
+        $location = location::find($id);
+        return view('admin.lokasi.edit', compact('location'));
     }
 
     /**
@@ -64,6 +64,15 @@ class LocationController extends Controller
     public function update(Request $request, string $id)
     {
         $location = location::find($id);
+        $rules = [
+            'kode_lokasi' => ['required'],
+            'label' => ['required'],
+            'rak' => ['required'],
+        ];
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
         $location->kode_lokasi = $request->kode_lokasi;
         $location->label = $request->label;
         $location->rak = $request->rak;

@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\book;
+use App\Models\Book;
+use App\Models\Category;
+use App\Models\location;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class BookController extends Controller
 {
@@ -12,7 +15,8 @@ class BookController extends Controller
      */
     public function index()
     {
-        //
+        $books = Book::with('lokasi')->orderBy('id', 'DESC')->get();
+        return view('admin.buku.index', compact('books'));
     }
 
     /**
@@ -20,7 +24,9 @@ class BookController extends Controller
      */
     public function create()
     {
-        //
+        $locations = location::all();
+        $categories = category::all();
+        return view('admin.buku.create', compact('locations', 'categories'));
     }
 
     /**
@@ -28,13 +34,27 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
+        $rules = [
+            'id_lokasi' => ['required'],
+            'id_kategori' => ['required'],
+            'judul' => ['required'],
+            'pengarang' => ['required'],
+            'penerbit' => ['required'],
+            'tahun_terbit' => ['required'],
+            'keterangan' => ['nullable'],
+            'stock' => ['required']
+        ];
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
         book::create([
             'id_lokasi' => $request->id_lokasi,
             'id_kategori' => $request->id_kategori,
             'judul' => $request->judul,
             'pengarang' => $request->pengarang,
             'penerbit' => $request->penerbit,
-            'tahun_penerbit' => $request->tahun_penerbit,
+            'tahun_terbit' => $request->tahun_terbit,
             'keterangan' => $request->keterangan,
             'stock' => $request->stock
         ]);
@@ -54,7 +74,10 @@ class BookController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $book = book::find($id);
+        $locations = location::all();
+        $categories = category::all();
+        return view('admin.buku.edit', compact('book', 'locations', 'categories'));
     }
 
     /**
@@ -62,7 +85,32 @@ class BookController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $book = book::find($id);
+        $rules = [
+            'id_lokasi' => ['required'],
+            'id_kategori' => ['required'],
+            'judul' => ['required'],
+            'pengarang' => ['required'],
+            'penerbit' => ['required'],
+            'tahun_terbit' => ['required'],
+            'keterangan' => ['nullable'],
+            'stock' => ['required']
+        ];
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+        $book->id_lokasi = $request->id_lokasi;
+        $book->id_kategori = $request->id_kategori;
+        $book->judul = $request->judul;
+        $book->pengarang = $request->pengarang;
+        $book->penerbit = $request->penerbit;
+        $book->tahun_terbit = $request->tahun_terbit;
+        $book->keterangan = $request->keterangan;
+        $book->stock = $request->stock;
+        $book->save();
+
+        return redirect()->to('buku/index');
     }
 
     /**
@@ -70,6 +118,9 @@ class BookController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $book = book::find($id);
+        $book->delete();
+
+        return redirect()->to('buku/index');
     }
 }

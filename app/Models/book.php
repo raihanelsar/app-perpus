@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class book extends Model
+class Book extends Model
 {
     protected $fillable = [
         'id_lokasi',
@@ -16,4 +16,13 @@ class book extends Model
         'keterangan',
         'stock',
     ];
+
+    public function lokasi()
+    {
+        return $this->belongsTo(location::class, 'id_lokasi', 'id');
+    }
+    public function kategori()
+    {
+        return $this->belongsTo(Category::class, 'id_kategori', 'id');
+    }
 }

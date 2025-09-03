@@ -11,7 +11,7 @@
             @endforeach
             <div class="card-body">
                 <h3 class="card-title">{{ $title }}</h3>
-                <form action="{{ url('lokasi/store') }}" method="post">
+                <form action="{{ route('lokasi.store') }}" method="post">
                     @csrf
                     <div class="mb-3">
                     <label for="" class="form-label">Kode Lokasi</label>

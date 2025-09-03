@@ -23,6 +23,12 @@
                         </a>
                     </li>
 
+                    <li>
+                         <a href="{{ url('buku/index') }}">
+                             <i class="bi bi-circle"></i><span>Buku</span>
+                         </a>
+                     </li>
+
                      <li>
                         <a href="{{ url('lokasi/index') }}">
                             <i class="bi bi-circle"></i><span>Lokasi Buku</span>
@@ -34,6 +40,7 @@
                             <i class="bi bi-circle"></i><span>Kategori Buku</span>
                         </a>
                     </li>
+
                     {{--
                     <li class="nav-item">
                        <a class="nav-link collapsed" href="{{ route('guests.index') }} ">
@@ -50,5 +57,10 @@
                    </li> --}}
                 </ul>
             </li><!-- End Components Nav -->
-
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="{{ route('transaction.index') }}">
+                    <i class="bi bi-calender"></i>
+                    <span>Pinjam Buku</span>
+               </a>
+            </li>
     </aside><!-- End Sidebar-->
