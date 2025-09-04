@@ -79,7 +79,7 @@ class TransactionController extends Controller
     public function show(string $id)
     {
         $borrow = Borrows::with('detailBorrows.book', 'member')->find($id);
-        return view('admin.peminjam.show', compact('borrow'));
+        return view('admin.pinjam.show', compact('borrow'));
     }
 
     /**
