@@ -298,10 +298,16 @@
         const tr = document.createElement('tr');
         tr.innerHTML = `
         <td>${no}</td>
-        <td>${NameBook}</td>
-        <td><button class='btn btn-sm btn-danger'>Hapus</button></td>
-        `
+        <td>${NameBook}<input type='hidden' name='id_buku[]' value=${idBook}></td>
+        <td><button class='btn btn-sm btn-danger delete-row'>Hapus</button></td>
+        `;
         tbody.appendChild(tr);
+    });
+
+    document.querySelector('#tableTrans tbody').addEventListener('click', function(e){
+        if(e.target.classList.contains('delete-row')){
+            e.target.closest('tr').remove();
+        }
     });
 </script>
 
