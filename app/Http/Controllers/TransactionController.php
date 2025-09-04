@@ -18,8 +18,8 @@ class TransactionController extends Controller
      */
     public function index()
     {
-
-        return view('admin.pinjam.index');
+        $borrows = Borrows::with('member', 'detailBorrows')->orderBy('id', 'desc')->get();
+        return view('admin.pinjam.index', compact('borrows'));
     }
 
     /**
@@ -78,7 +78,8 @@ class TransactionController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $borrow = Borrows::with('detailBorrows.book', 'member')->find($id);
+        return view('admin.peminjam.show', compact('borrow'));
     }
 
     /**
