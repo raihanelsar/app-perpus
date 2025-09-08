@@ -10,6 +10,8 @@ use App\Models\Book;
 use App\Models\DetailBorrows;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use RealRashid\SweetAlert\Facades\Alert;
+
 
 class TransactionController extends Controller
 {
@@ -67,9 +69,12 @@ class TransactionController extends Controller
             }
 
             DB::commit();
-            return redirect()->to('print-peminjam', $insertBorrow->id);
+            // Alert::success('Berhasil!!', 'Transaksi berhasil dibuat');
+            return to_route('print-peminjam', ['id' => $insertBorrow->id]);
         } catch (\Throwable $th) {
             DB::rollBack();
+            Alert::error('upss!!', $th->getMessage());
+            return back()->withErrors(['Error' => 'transaksi gagal!']);
         }
     }
 
@@ -103,16 +108,26 @@ class TransactionController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $borrow = Borrows::find($id);
+        $borrow->detailBorrows()->delete();
+        $borrow->delete();
+        return redirect()->to('transaction');
     }
 
     public function getBukuByIdCategory($id_category)
     {
         try {
             $book = Book::where('id_kategori', $id_category)->get();
-            return response()->json(['status' => 'success', 'message' => 'fetch book success', 'data' => $book]);
+            return response()->json([
+                'status' => 'success',
+                'message' => 'fetch book success',
+                'data' => $book
+            ]);
         } catch (\Throwable $th) {
-            return response()->json(['status' => 'error', 'message' => $th->getMessage()], 500);
+            return response()->json([
+                'status' => 'error',
+                'message' => $th->getMessage()
+            ], 500);
         }
     }
 
@@ -120,5 +135,34 @@ class TransactionController extends Controller
     {
         $borrow = Borrows::with('member', 'detailBorrows.book')->find($id_borrow);
         return view('admin.pinjam.print', compact('borrow'));
+    }
+
+    public function returnBook(Request $request, $id)
+    {
+        $borrow = Borrows::findOrFail($id);
+
+        if (!$borrow->actual_return_date) {
+            $fine = 0;
+        }
+
+        if ($borrow->fine) {
+            $fine = $borrow->fine;
+        }
+
+        $returnDate = \Carbon\Carbon::parse($borrow->return_date);
+        $actualReturnDate = \Carbon\Carbon::parse($borrow->actual_return_date);
+
+        if ($actualReturnDate->greaterThan($returnDate)) {
+            $late = $returnDate->diffInDays($actualReturnDate);
+            $fine = $late * 10000;
+        }
+
+        $borrow->actual_return_date = now();
+        $borrow->actual_return_date = Carbon::now();
+        $borrow->fine = $fine;
+        $borrow->status = 0;
+        $borrow->save();
+        Alert::success('Berhasil', 'Buku berhasil dikembalikan');
+        return redirect()->to('transaction');
     }
 }
