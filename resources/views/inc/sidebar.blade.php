@@ -10,6 +10,7 @@
                 </a>
             </li><!-- End Dashboard Nav -->
 
+            @if (auth()->user()->hasRole('Administrator'))
             <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
                     <i class="bi bi-menu-button-wide"></i><span>Master Data</span><i
@@ -23,44 +24,46 @@
                         </a>
                     </li>
 
+
+                    <li>
+                        <a href="{{ url('lokasi/index') }}">
+                            <i class="bi bi-circle"></i><span>Lokasi Buku</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{{ url('kategori/index') }}">
+                            <i class="bi bi-circle"></i><span>Kategori Buku</span>
+                        </a>
+                    </li>
+
                     <li>
                          <a href="{{ url('buku/index') }}">
                              <i class="bi bi-circle"></i><span>Buku</span>
                          </a>
                      </li>
 
-                     <li>
-                        <a href="{{ url('lokasi/index') }}">
-                            <i class="bi bi-circle"></i><span>Lokasi Buku</span>
-                        </a>
-                    </li>
+                    <li>
+                         <a href="{{ route('role.index') }}">
+                             <i class="bi bi-circle"></i><span>Role</span>
+                         </a>
+                     </li>
 
-                   <li>
-                        <a href="{{ url('kategori/index') }}">
-                            <i class="bi bi-circle"></i><span>Kategori Buku</span>
-                        </a>
-                    </li>
+                    <li>
+                         <a href="{{ route('user.index') }}">
+                             <i class="bi bi-circle"></i><span>User</span>
+                         </a>
+                     </li>
 
-                    {{--
-                    <li class="nav-item">
-                       <a class="nav-link collapsed" href="{{ route('guests.index') }} ">
-                           <i class="bi bi-person"></i>
-                           <span>Guest</span>
-                       </a>
-                   </li>
-
-                    <li class="nav-item">
-                       <a class="nav-link collapsed" href="{{ route('reservation.index') }} ">
-                           <i class="bi bi-calendar"></i>
-                           <span>Reservasi</span>
-                       </a>
-                   </li> --}}
                 </ul>
             </li><!-- End Components Nav -->
+            @endif
+            @if (auth()->user()->hasAnyRole(['Administrator', 'User']))
             <li class="nav-item">
                 <a class="nav-link collapsed" href="{{ route('transaction.index') }}">
-                    <i class="bi bi-calender"></i>
+                    <i class="bi bi-calendar"></i>
                     <span>Pinjam Buku</span>
                </a>
             </li>
+            @endif
     </aside><!-- End Sidebar-->

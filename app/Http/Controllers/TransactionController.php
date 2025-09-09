@@ -69,7 +69,7 @@ class TransactionController extends Controller
             }
 
             DB::commit();
-            // Alert::success('Berhasil!!', 'Transaksi berhasil dibuat');
+            Alert::success('Berhasil!!', 'Transaksi berhasil dibuat');
             return to_route('print-peminjam', ['id' => $insertBorrow->id]);
         } catch (\Throwable $th) {
             DB::rollBack();
